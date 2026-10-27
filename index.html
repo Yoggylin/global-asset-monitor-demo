@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="全球大类资产盯盘工作台演示版" />
+  <title>全球大类资产盯盘工作台</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">A</span>
+        <div><strong>ATLAS</strong><small>GLOBAL ASSET DESK</small></div>
+      </div>
+      <nav id="nav">
+        <button class="nav-item active" data-page="overview"><span>⌘</span>市场总览</button>
+        <button class="nav-item" data-page="risk"><span>◇</span>风险雷达 <b>3</b></button>
+        <button class="nav-item" data-page="moves"><span>↗</span>异动中心</button>
+        <button class="nav-item" data-page="events"><span>□</span>事件中心</button>
+        <button class="nav-item" data-page="allocation"><span>◫</span>配置观察</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="data-health" id="dataHealth"><i></i><span>数据状态<small>演示数据 · 运行正常</small></span></button>
+        <div class="wind-note">未来数据源<br><strong>Wind 金融终端</strong></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">MULTI-ASSET MONITOR</div>
+          <h1 id="pageTitle">全球市场总览</h1>
+        </div>
+        <div class="top-actions">
+          <div class="period-tabs" id="periodTabs">
+            <button data-period="日">日</button><button class="active" data-period="周">周</button><button data-period="月">月</button><button data-period="季">季</button><button data-period="年">年</button>
+          </div>
+          <button class="select-button">USD口径⌄</button>
+          <button class="icon-button" title="搜索">⌕</button>
+          <button class="ai-button" id="openAi">✦ AI 研究助手</button>
+        </div>
+      </header>
+
+      <div class="demo-banner"><strong>演示模式</strong> 当前使用可重复的模拟数据，不代表真实市场行情或投资建议。接入 Wind 后将由统一适配器替换。</div>
+
+      <section class="page active" id="overview">
+        <div class="status-strip">
+          <div><small>风险偏好</small><strong class="positive">偏积极</strong><span>较上周 +6</span></div>
+          <div><small>美元环境</small><strong>偏强</strong><span>DXY 68分位</span></div>
+          <div><small>利率环境</small><strong class="negative">承压</strong><span>长端利率上行</span></div>
+          <div><small>流动性</small><strong>中性</strong><span>信号分化</span></div>
+          <div><small>未来72小时</small><strong class="warning">2项高影响</strong><span>FOMC · 美国CPI</span></div>
+        </div>
+
+        <div class="overview-grid">
+          <section class="panel heatmap-panel">
+            <div class="panel-head">
+              <div><span class="section-kicker">CROSS-ASSET MAP</span><h2>核心资产综合热力图</h2></div>
+              <div class="view-tabs"><button class="active">综合</button><button>收益</button><button>趋势</button><button>估值</button><button>风险</button></div>
+            </div>
+            <div class="legend"><span><i class="l5"></i>明显有利</span><span><i class="l4"></i>偏有利</span><span><i class="l3"></i>中性</span><span><i class="l2"></i>偏不利</span><span><i class="l1"></i>明显不利</span></div>
+            <div id="heatmap" class="heatmap"></div>
+          </section>
+
+          <div class="right-rail">
+            <section class="panel compact-panel">
+              <div class="panel-head"><div><span class="section-kicker">TOP MOVES</span><h2>重点异动</h2></div><button class="text-button" data-goto="moves">查看全部</button></div>
+              <div class="move-list" id="moveList"></div>
+            </section>
+            <section class="panel compact-panel">
+              <div class="panel-head"><div><span class="section-kicker">RISK SIGNALS</span><h2>风险提示</h2></div><button class="text-button" data-goto="risk">进入雷达</button></div>
+              <div class="risk-list">
+                <button class="risk-row"><em class="red"></em><span><strong>股债相关性抬升</strong><small>滚动60日相关性进入92%分位</small></span><b>高</b></button>
+                <button class="risk-row"><em class="amber"></em><span><strong>美债波动偏高</strong><small>MOVE代理指标连续3日上行</small></span><b>中</b></button>
+                <button class="risk-row"><em class="amber"></em><span><strong>权益估值分化</strong><small>美股偏贵，欧洲接近中性</small></span><b>中</b></button>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <section class="panel timeline-panel">
+          <div class="panel-head"><div><span class="section-kicker">NEXT 7 DAYS</span><h2>关键事件时间轴</h2></div><button class="text-button" data-goto="events">完整日历</button></div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </section>
+
+      <section class="page" id="risk">
+        <div class="page-intro"><div><span class="section-kicker">RISK RADAR</span><h2>风险状态与触发证据</h2><p>固定阈值、历史分位数与横截面排名联合判断。数据缺失时不会被判定为低风险。</p></div><div class="risk-score"><small>综合风险</small><strong>64</strong><span>中高</span></div></div>
+        <div class="risk-matrix" id="riskMatrix"></div>
+        <section class="panel rule-panel"><div class="panel-head"><div><span class="section-kicker">ACTIVE RULES</span><h2>当前触发规则</h2></div></div><div id="ruleTable"></div></section>
+      </section>
+
+      <section class="page" id="moves">
+        <div class="page-intro"><div><span class="section-kicker">ANOMALY CENTER</span><h2>跨资产异动中心</h2><p>区分价格异动、趋势变化、波动异常和关系异常。</p></div><div class="filter-row"><button class="chip active">全部</button><button class="chip">价格</button><button class="chip">趋势</button><button class="chip">波动</button><button class="chip">关系</button></div></div>
+        <div class="anomaly-grid" id="anomalyGrid"></div>
+      </section>
+
+      <section class="page" id="events">
+        <div class="page-intro"><div><span class="section-kicker">EVENT INTELLIGENCE</span><h2>全球事件中心</h2><p>事件重要性综合历史敏感度、当前宏观相关度、预期分歧和资产覆盖范围。</p></div><div class="filter-row"><button class="chip active">全部地区</button><button class="chip">中国</button><button class="chip">美国</button><button class="chip">欧洲</button><button class="chip">日本</button></div></div>
+        <div class="event-layout"><section class="panel"><div class="calendar-head"><button>‹</button><h3>2026年10月</h3><button>›</button></div><div class="calendar" id="calendar"></div></section><section class="panel event-detail" id="eventDetail"></section></div>
+      </section>
+
+      <section class="page" id="allocation">
+        <div class="page-intro"><div><span class="section-kicker">ALLOCATION WATCH</span><h2>配置观察</h2><p>展示研究倾向与置信度，不生成交易指令。</p></div><div class="confidence-note">置信度 = 信号一致度 + 数据质量 + 跨资产确认 + 历史稳定性</div></div>
+        <section class="panel allocation-panel"><div class="allocation-head"><span>资产</span><span>当前倾向</span><span>置信度</span><span>主要支持</span><span>主要反对</span><span>变化</span></div><div id="allocationRows"></div></section>
+      </section>
+    </main>
+  </div>
+
+  <aside class="drawer" id="assetDrawer" aria-hidden="true">
+    <div class="drawer-head"><div><span class="section-kicker">ASSET DOSSIER</span><h2 id="drawerTitle">资产详情</h2></div><button id="closeDrawer">×</button></div>
+    <div id="drawerContent"></div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <aside class="ai-drawer" id="aiDrawer" aria-hidden="true">
+    <div class="drawer-head"><div><span class="section-kicker">EVIDENCE-FIRST AI</span><h2>AI 研究助手</h2></div><button id="closeAi">×</button></div>
+    <div class="ai-context">当前上下文：<strong id="aiContext">全球市场总览 · 周度</strong></div>
+    <div class="prompt-list"><button>今天市场状态发生了什么变化？</button><button>哪些风险正在上升？</button><button>解释当前综合评分。</button><button>哪些事件可能改变判断？</button></div>
+    <div class="ai-answer" id="aiAnswer"><span class="ai-label">演示回答</span><h3>市场状态仍偏积极，但证据并不完全一致</h3><ol><li><strong>事实：</strong>权益和黄金周度表现较强，美债价格承压。</li><li><strong>市场共识：</strong>风险资产受益于盈利韧性，但长端利率构成约束。</li><li><strong>推断：</strong>当前更接近“风险偏好改善、金融条件未同步宽松”。</li><li><strong>反方证据：</strong>股债相关性上升可能削弱传统分散效果。</li><li><strong>观察：</strong>FOMC表述、美国CPI和10年期美债收益率。</li></ol><p>来源：演示数据 · 非 Wind 实时数据</p></div>
+    <div class="chat-box"><input placeholder="询问资产、风险或事件…" /><button>发送</button></div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
